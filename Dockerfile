@@ -43,7 +43,7 @@ ENV HOME=/root \
 
 
 # ── Install shellular globally ────────────────────────────────────────────────
-RUN npm install -g --prefix /usr/local shellular
+RUN npm install -g --prefix /usr/local shellular@0.0.19
 
 
 # ── Create Python venv ────────────────────────────────────────────────────────
