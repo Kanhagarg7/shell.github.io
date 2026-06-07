@@ -1,3 +1,4 @@
+
 # ── Base image ────────────────────────────────────────────────────────────────
 FROM node:20-slim
 
@@ -18,11 +19,13 @@ RUN apt-get update && apt-get upgrade -y && \
         screen \
         nano \
         rsync \
+        iptables \
+        passwd \
+        procps \
     && rm -rf /var/lib/apt/lists/*
 
 
 # ── Generate a unique 64-char Machine ID ─────────────────────────────────────
-# This creates a valid, random 64-character hex string (SHA-256 format)
 RUN mkdir -p /var/lib/dbus && \
     head -c 512 /dev/urandom | sha256sum | cut -d' ' -f1 > /etc/machine-id && \
     cp /etc/machine-id /var/lib/dbus/machine-id
@@ -112,7 +115,6 @@ RUN git config --system --add safe.directory '*'
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
-# Note: Ensure package.json exists in your build context
 COPY package*.json /root/app/
 RUN cd /root/app && npm install --omit=dev
 COPY . /root/app/
